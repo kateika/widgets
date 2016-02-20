@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Виджеты</title>
+  <link rel="stylesheet" href="UI/css/reset.css">
+  <link rel="stylesheet" href="UI/css/main.css">
+</head>
+
+<body>
+  <div class="calendar container">
+    <div class="calendar__month-picker">
+        <a href="#" class="calendar__month-prev"></a>
+        <h2 class="calendar__current-month">May 2014</h2>
+        <a href="#" class="calendar__month-next"></a>
+      </div>
+    <div class="content-container">
+      <table class="calendar__day-picker">
+        <thead>
+          <tr>
+            <!--dow - day of the week-->
+            <th class="calendar__dow">Sun</th>
+            <th class="calendar__dow">Mon</th>
+            <th class="calendar__dow">Tue</th>
+            <th class="calendar__dow">Wed</th>
+            <th class="calendar__dow">Thu</th>
+            <th class="calendar__dow">Fri</th>
+            <th class="calendar__dow">Sat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="calendar__day calendar__day_disabled">29</td>
+            <td class="calendar__day calendar__day_disabled">30</td>
+            <td class="calendar__day">1</td>
+            <td class="calendar__day">2</td>
+            <td class="calendar__day calendar__day_today">3</td>
+            <td class="calendar__day">4</td>
+            <td class="calendar__day">5</td>
+          </tr>
+          <tr>
+            <td class="calendar__day">6</td>
+            <td class="calendar__day calendar__day_holiday">7</td>
+            <td class="calendar__day">8</td>
+            <td class="calendar__day calendar__day_selected">9</td>
+            <td class="calendar__day">10</td>
+            <td class="calendar__day">11</td>
+            <td class="calendar__day">12</td>
+          </tr>
+          <tr>
+            <td class="calendar__day">13</td>
+            <td class="calendar__day">14</td>
+            <td class="calendar__day">15</td>
+            <td class="calendar__day">16</td>
+            <td class="calendar__day">17</td>
+            <td class="calendar__day">18</td>
+            <td class="calendar__day">19</td>
+          </tr>
+          <tr>
+            <td class="calendar__day">20</td>
+            <td class="calendar__day">21</td>
+            <td class="calendar__day">22</td>
+            <td class="calendar__day calendar__day_holiday">23</td>
+            <td class="calendar__day">24</td>
+            <td class="calendar__day">25</td>
+            <td class="calendar__day">26</td>
+          </tr>
+          <tr>
+            <td class="calendar__day">27</td>
+            <td class="calendar__day">28</td>
+            <td class="calendar__day">29</td>
+            <td class="calendar__day">30</td>
+            <td class="calendar__day calendar__day_disabled">1</td>
+            <td class="calendar__day calendar__day_disabled">2</td>
+            <td class="calendar__day calendar__day_disabled">3</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="button">Add event</button>
+    </div>
+  </div>
+
+  <div class="room-search container">
+    <!-- html5 specification allows flowing content (which include h2 and div) to be inside "a" tag https://developer.mozilla.org/en/docs/Web/HTML/Element/a-->
+    <a href="/hotels/hotel-relais.html" class="room-search__hotel">
+      <img class="room-search__photo" src="pic/hotel-photo.jpg" alt="Hotel Relais in Paris" width="346" height="185"/>
+
+      <!-- We need room-search__info wrapper in case title or location will take more than one line, and we want background gradient to scale as well, so text is still readable -->
+      <div class="room-search__info">
+        <h2 class="room-search__title">Hotel Relais</h2>
+        <div class="room-search__location">Paris, France</div>
+      </div>
+    </a>
+    <form class="content-container" action="search.php" method="get">
+      <div class="input">
+        <label for="check-in" class="input__label room-search__label">Check in</label>
+        <input type="date" class="input__content room-search__date" id="check-in" name="check-in" placeholder="9 July, 2016" />
+        <button class="input__picker room-search__date-picker"></button>
+      </div>
+      <div class="input">
+        <label for="check-out" class="input__label room-search__label">Check out</label>
+        <input type="text" class="input__content room-search__date" id="check-out" name="check-out" placeholder="16 July, 2016" disabled/>
+        <button class="input__picker room-search__date-picker"></button>
+      </div>
+      <div class="checkbox">
+        <input type="checkbox" id="room-search__checkbox" class="room-search__checkbox" checked name="flexible-dates"/>
+        <label for="room-search__checkbox" class="room-search__checkbox-label">Flexible dates</label>
+      </div>
+      <div class="room-search__guests">
+        <div class="input select">
+          <label class="input__label room-search__label">Adults</label>
+          <div class="input__content select__value">2</div>
+          <button class="input__picker select__picker"></button>
+          <ul class="list">
+            <li class="list__item">1</li>
+            <li class="list__item list__item_selected">2</li>
+            <li class="list__item">3</li>
+          </ul>
+        </div>
+        <div class="input select">
+          <label class="input__label room-search__label">Children</label>
+          <div class="input__content select__value">1</div>
+          <button class="input__picker select__picker"></button>
+          <ul class="list">
+            <li class="list__item">0</li>
+            <li class="list__item list__item_selected">1</li>
+            <li class="list__item">2</li>
+            <li class="list__item">3</li>
+            <li class="list__item">4</li>
+          </ul>
+        </div>
+      </div>
+      <button class="button room-search__button">Search rooms</button>
+    </form>
+  </div>
+
+  <div class="place container">
+    <ul class="place__actions">
+      <li><a href="#" class="place__action place__action-info place__action_active"></a></li>
+      <li><a href="#" class="place__action place__action-location"></a></li>
+      <li><a href="#" class="place__action place__action-fav"></a></li>
+    </ul>
+
+    <div class="place__info">
+      <h2 class="place__title">
+        My most favourite<br />
+        place in the world
+      </h2>
+
+      <div class="place__reviews">
+        <span class="place__reviews-number">154</span>
+        Reviews
+      </div>
+
+      <!-- we wrap description in div, as it might come from the database -->
+      <div class="place__description">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas a pulvinar ipsum. Aliquam sit amet iaculis dolor. Vivamus sed diam sollicitudin.</p>
+      </div>
+
+      <a class="place__read-more" href="#">Read more</a>
+    </div>
+
+    <!-- inline style here because photo is content, and we want to protect it from download -->
+    <div class="place__photo" style="background-image: url(pic/place-photo.jpg);">
+      <div class="place__stats">
+        <a class="place__comments" href="#" >752</a>
+        <a class="place__likes" href="#">2709</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="email container">
+    <form class="content-container">
+      <div class="input email__input">
+        <div class="input__content input__tokens">
+          <div class="token">
+            <div class="token__value">rick.james@mail.com</div>
+            <button class="token__delete"></button>
+          </div>
+        </div>
+        <button class="input__picker email__picker"></button>
+      </div>
+      <div class="input email__input">
+        <input type="text" class="input__content" name="subject" placeholder="Subject" required/>
+        <div class="input__picker email__file-picker">
+          <input type="file" name="file"/>
+        </div>
+      </div>
+      <div class="input email__input email__message">
+        <textarea class="input__content" name="message" placeholder="Message" required rows="8" cols="35"></textarea>
+      </div>
+      <button class="button email__button">Send</button>
+    </form>
+  </div>
+   
+  <div class="chart container">
+    <ul class="chart__scale">
+      <li class="chart__scale-point">30</li>
+      <li class="chart__scale-point">20</li>
+      <li class="chart__scale-point">10</li>
+      <li class="chart__scale-point">0</li>
+    </ul>
+    <ul class="chart__columns">
+      <li class="chart__column" style="height: 49px">
+        <div class="chart__column-value">7</div>
+        <div class="chart__column-legend">Mon</div>
+      </li>
+      <li class="chart__column" style="height: 62px">
+        <div class="chart__column-value">9</div>
+        <div class="chart__column-legend">Tue</div>
+      </li>
+      <li class="chart__column" style="height: 119px">
+        <div class="chart__column-value">17</div>
+        <div class="chart__column-legend">Wed</div>
+      </li>
+      <li class="chart__column" style="height: 158px">
+        <div class="chart__column-value">23</div>
+        <div class="chart__column-legend">Thu</div>
+      </li>
+      <li class="chart__column" style="height: 129px">
+        <div class="chart__column-value">18</div>
+        <div class="chart__column-legend">Fri</div>
+      </li>
+      <li class="chart__column" style="height: 169px">
+        <div class="chart__column-value">24</div>
+        <div class="chart__column-legend">Sat</div>
+      </li>
+      <li class="chart__column" style="height: 143px">
+        <div class="chart__column-value">21</div>
+        <div class="chart__column-legend">Sun</div>
+      </li>
+    </ul>
+  </div>
+  
+  <script src="UI/js/main.js"></script>
+</body>
+
+</html>

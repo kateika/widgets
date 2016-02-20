@@ -1,0 +1,53 @@
+.sprite {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.sprite-calendar {
+    width: 37px;
+    height: 37px;
+    background-position: 0 0;
+}
+
+.sprite-comment {
+    width: 25px;
+    height: 22px;
+    background-position: 0 -37px;
+}
+
+.sprite-eye {
+    width: 72px;
+    height: 113px;
+    background-position: 0 -59px;
+}
+
+.sprite-heart {
+    width: 26px;
+    height: 22px;
+    background-position: 0 -172px;
+}
+
+.sprite-location-big {
+    width: 72px;
+    height: 113px;
+    background-position: 0 -194px;
+}
+
+.sprite-location-small {
+    width: 13px;
+    height: 18px;
+    background-position: 0 -307px;
+}
+
+.sprite-paperclip {
+    width: 37px;
+    height: 37px;
+    background-position: 0 -325px;
+}
+
+.sprite-star {
+    width: 72px;
+    height: 114px;
+    background-position: 0 -362px;
+}
