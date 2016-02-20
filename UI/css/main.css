@@ -106,7 +106,7 @@ body {
 }
 
 .input__picker:hover {
-  opacity: .9;
+  background-color: #556375;
 }
 
 .input__label {
@@ -116,7 +116,7 @@ body {
 }
 
 .input__content {
-  padding: 9px 45px 10px 12px;
+  padding: 9px 5px 10px 12px;
   font-family: "Gotham", "Arial", sans-serif;
   font-size: 14px;
   line-height: 26px;
@@ -273,29 +273,32 @@ body {
 
 .calendar__day_today {
   border-radius: 50%;
-  background-color: #404a58;
+  background-color: #fb6362;
   color: white;
 }
 
 .calendar__day_selected {
   border-radius: 50%;
-  background-color: #fb6362;
+  background-color: #62fb7f;
   color: white;
 }
 
 .calendar__day_disabled,
 .calendar__day_disabled:hover {
   color: #c5c5c5;
+  cursor: default;
 }
 
+.calendar__day_today:hover,
 .calendar__day_selected:hover {
-  color: white;
+  color: #555;
 }
 
 
 /******************Room search widget******************/
 
 .room-search {
+  display: none;
   width: 346px;
 }
 
@@ -373,6 +376,7 @@ body {
 }
 
 .room-search__date-picker {
+  display: none;
   background-image: url(../images/sprite.png);
   width: 37px;
   height: 37px;
@@ -485,6 +489,20 @@ body {
   transform: rotate(-45deg);
 }
 
+.modal-search-form {
+  display: block;
+  position: absolute;
+  top: 55px;
+  left: 55px;
+  -webkit-box-shadow: 0 20px 40px 0 rgba(0,0,0,.5);
+        box-shadow: 0 20px 40px 0 rgba(0,0,0,.5);
+  z-index: 2;
+}
+
+::-webkit-inner-spin-button { display: none; }
+.error {
+  color: red;
+}
 
 /*************** Email widget ************/
 
@@ -493,7 +511,6 @@ body {
 }
 
 .email .content-container {
-  /*  position: relative;*/
   overflow: hidden;
 }
 
@@ -708,6 +725,8 @@ body {
   width: 791px;
   height: 340px;
   overflow: hidden;
+  border-radius: 3px;
+  margin-top: 200px;
 }
 
 .place__actions,

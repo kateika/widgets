@@ -13,7 +13,7 @@
   <div class="calendar container">
     <div class="calendar__month-picker">
         <a href="#" class="calendar__month-prev"></a>
-        <h2 class="calendar__current-month">May 2014</h2>
+        <h2 class="calendar__current-month">Feb 2016</h2>
         <a href="#" class="calendar__month-next"></a>
       </div>
     <div class="content-container">
@@ -44,7 +44,7 @@
             <td class="calendar__day">6</td>
             <td class="calendar__day calendar__day_holiday">7</td>
             <td class="calendar__day">8</td>
-            <td class="calendar__day calendar__day_selected">9</td>
+            <td class="calendar__day">9</td>
             <td class="calendar__day">10</td>
             <td class="calendar__day">11</td>
             <td class="calendar__day">12</td>
@@ -81,7 +81,6 @@
       <button class="button">Add event</button>
     </div>
   </div>
-
   <div class="room-search container">
     <!-- html5 specification allows flowing content (which include h2 and div) to be inside "a" tag https://developer.mozilla.org/en/docs/Web/HTML/Element/a-->
     <a href="/hotels/hotel-relais.html" class="room-search__hotel">
@@ -101,8 +100,8 @@
       </div>
       <div class="input">
         <label for="check-out" class="input__label room-search__label">Check out</label>
-        <input type="text" class="input__content room-search__date" id="check-out" name="check-out" placeholder="16 July, 2016" disabled/>
-        <button class="input__picker room-search__date-picker"></button>
+        <input type="date" class="input__content room-search__date" id="check-out" name="check-out" placeholder="16 July, 2016" />
+        <button for="check=out" class="input__picker room-search__date-picker"></button>
       </div>
       <div class="checkbox">
         <input type="checkbox" id="room-search__checkbox" class="room-search__checkbox" checked name="flexible-dates"/>
@@ -233,7 +232,7 @@
       </li>
     </ul>
   </div>
-  
+  <script src="UI/js/jquery-2.2.0.js"></script>
   <script src="UI/js/main.js"></script>
 </body>
 
