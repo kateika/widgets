@@ -44,7 +44,7 @@ body {
 .chart,
 .place,
 .email {
-  float: left;
+/*  float: left;*/
   margin-right: 50px;
   margin-bottom: 50px;
 }
@@ -248,7 +248,7 @@ body {
   border-spacing: 4px;
 }
 
-.calendar__dow {
+.calendar__day-picker th {
   font-weight: 600;
   font-size: 14px;
   line-height: 15px;
@@ -300,6 +300,9 @@ body {
 .room-search {
   display: none;
   width: 346px;
+  position: absolute;
+  top: 55px;
+  left: 55px;
 }
 
 .room-search .input:first-child {
@@ -489,17 +492,14 @@ body {
   transform: rotate(-45deg);
 }
 
-.modal-search-form {
+.modal-form {
   display: block;
-  position: absolute;
-  top: 55px;
-  left: 55px;
-  -webkit-box-shadow: 0 20px 40px 0 rgba(0,0,0,.5);
-        box-shadow: 0 20px 40px 0 rgba(0,0,0,.5);
+  box-shadow: 0 20px 40px 0 rgba(0,0,0,.5);
   z-index: 2;
 }
 
-::-webkit-inner-spin-button { display: none; }
+input[type="date"]::-webkit-inner-spin-button { display: none; }
+
 .error {
   color: red;
 }
@@ -507,6 +507,9 @@ body {
 /*************** Email widget ************/
 
 .email {
+  position: absolute;
+  top: 684px;
+  left: 128px;
   width: 380px;
 }
 
@@ -542,7 +545,8 @@ body {
   border-bottom: 2px solid #999999;
 }
 
-.email__input {
+.email__input,
+.height__input{
   margin-bottom: 23px;
   min-height: 43px;
   height: auto;
@@ -588,10 +592,14 @@ body {
 }
 
 .token__delete:before {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 
 .token__delete:after {
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
 
@@ -631,25 +639,33 @@ body {
   width: 127px;
   float: right;
   margin-top: 0px;
+  margin-left: 15px;
   height: 48px;
   line-height: 48px;
 }
 
+.cancel {
+  background-color: #404a58;
+}
 
+.cancel:hover {
+  background-color: #576476;
+}
 /*************** Chart widget ************/
 
 .chart {
   position: relative;
   width: 791px;
-  height: 340px;:;
+  height: 390px;
+  margin-top: 200px;
 }
 
 .chart__scale,
 .chart__columns {
   position: absolute;
-  top: -2px;
+  top: 0;
   right: 46px;
-  bottom: 63px;
+  bottom: 110px;
   left: 43px;
 }
 
@@ -662,10 +678,18 @@ body {
 
 .chart__columns {
   display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
   -ms-flex-align: end;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
   align-items: flex-end;
   left: 104px;
+}
+
+@-webkit-keyframes rise {
+  from { height: 0; }
 }
 
 @keyframes rise {
@@ -679,7 +703,10 @@ body {
   background-color: #fb6362;
   position: relative;
   text-align: center;
+  -webkit-animation: rise 2s;
   animation: rise 2s;
+  -webkit-transition: height 2s;
+  transition: height 2s;
 }
 
 .chart__column-value,
@@ -707,6 +734,8 @@ body {
   position: absolute;
   bottom: -14px;
   left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   display: block;
   border-style: solid;
@@ -718,7 +747,34 @@ body {
   bottom: -29px;
 }
 
+.chart__button {
+  position: absolute;
+  bottom: 15px;
+  left: 280px;
+  width: 200px;
+}
 
+.modal-chart-form {
+  display: none;
+  position: absolute;
+  width: 310px;
+  top: 1050px;
+  left: 285px;
+}
+
+.modal-chart-form .content-container {
+  padding-bottom: 100px;
+}
+
+.chart__submit-button {
+  position: absolute;
+  left: 25px;
+  width: 260px;
+}
+
+.height__input {
+  margin-bottom: 0;
+}
 /*************** Place widget ************/
 
 .place {

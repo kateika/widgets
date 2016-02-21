@@ -21,13 +21,13 @@
         <thead>
           <tr>
             <!--dow - day of the week-->
-            <th class="calendar__dow">Sun</th>
-            <th class="calendar__dow">Mon</th>
-            <th class="calendar__dow">Tue</th>
-            <th class="calendar__dow">Wed</th>
-            <th class="calendar__dow">Thu</th>
-            <th class="calendar__dow">Fri</th>
-            <th class="calendar__dow">Sat</th>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
           </tr>
         </thead>
         <tbody>
@@ -95,13 +95,13 @@
     <form class="content-container" action="search.php" method="get">
       <div class="input">
         <label for="check-in" class="input__label room-search__label">Check in</label>
-        <input type="date" class="input__content room-search__date" id="check-in" name="check-in" placeholder="9 July, 2016" />
+        <input type="date" class="input__content room-search__date" id="check-in" name="check-in" />
         <button class="input__picker room-search__date-picker"></button>
       </div>
       <div class="input">
         <label for="check-out" class="input__label room-search__label">Check out</label>
-        <input type="date" class="input__content room-search__date" id="check-out" name="check-out" placeholder="16 July, 2016" />
-        <button for="check=out" class="input__picker room-search__date-picker"></button>
+        <input type="date" class="input__content room-search__date" id="check-out" name="check-out" />
+        <button class="input__picker room-search__date-picker"></button>
       </div>
       <div class="checkbox">
         <input type="checkbox" id="room-search__checkbox" class="room-search__checkbox" checked name="flexible-dates"/>
@@ -171,7 +171,7 @@
   </div>
 
   <div class="email container">
-    <form class="content-container">
+    <form class="content-container" method="get">
       <div class="input email__input">
         <div class="input__content input__tokens">
           <div class="token">
@@ -182,15 +182,16 @@
         <button class="input__picker email__picker"></button>
       </div>
       <div class="input email__input">
-        <input type="text" class="input__content" name="subject" placeholder="Subject" required/>
+        <input type="text" class="input__content" name="subject" placeholder="Subject"/>
         <div class="input__picker email__file-picker">
           <input type="file" name="file"/>
         </div>
       </div>
       <div class="input email__input email__message">
-        <textarea class="input__content" name="message" placeholder="Message" required rows="8" cols="35"></textarea>
+        <textarea class="input__content" name="message" placeholder="Message" rows="8" cols="35"></textarea>
       </div>
-      <button class="button email__button">Send</button>
+       <button class="button email__button cancel">Cancel</button>
+       <button class="button email__button">Send</button>
     </form>
   </div>
    
@@ -231,7 +232,42 @@
         <div class="chart__column-legend">Sun</div>
       </li>
     </ul>
+    <button class="button chart__button">Update data</button>
   </div>
+  <div class="modal-chart-form container">
+    <form class="content-container" method="get">
+      <label>Mon</label>
+      <div class="input height__input">
+          <input type="number" class="input__content chart__content" name="chart__column-value" placeholder="Enter height for first column"/>
+      </div>
+      <label>Tue</label>
+      <div class="input height__input">
+        <input type="number" class="input__content chart__content" name="chart__column-value" placeholder="Enter height for second column"/>
+      </div>
+      <label>Wed</label>
+      <div class="input height__input">
+        <input type="number" class="input__content chart__content" name="chart__column-value" placeholder="Enter height for third column"/>
+      </div>
+      <label>Thu</label>
+      <div class="input height__input">
+        <input type="number" class="input__content chart__content" name="chart__column-value" placeholder="Enter height for fourth column"/>
+      </div>
+      <label>Fri</label>
+      <div class="input height__input">
+        <input type="number" class="input__content chart__content" name="chart__column-value" placeholder="Enter height for fifth column"/>
+      </div>
+      <label>Sat</label>
+      <div class="input height__input">
+        <input type="number" class="input__content chart__content" name="chart__column-value" placeholder="Enter height for sixth column"/>
+      </div>
+      <label>Sun</label>
+      <div class="input height__input">
+        <input type="number" class="input__content chart__content" name="chart__column-value" placeholder="Enter height for seventh column"/>
+      </div>
+      <button class="button chart__submit-button">Update</button>
+    </form>
+  </div>
+
   <script src="UI/js/jquery-2.2.0.js"></script>
   <script src="UI/js/main.js"></script>
 </body>

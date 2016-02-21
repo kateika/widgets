@@ -8,31 +8,8 @@ calendar.title = $(".calendar__current-month");
 calendar.days = $("td.calendar__day:not(.calendar__day_disabled)");
 calendar.selectedDays = [];
 
-calendar.openForm = function() {
-  $(".room-search").addClass("modal-search-form").show();
-  //создаем враппер, чтобы ловить потом на нем клики и скрывать форму
-  $wrapper = $("<div>")
-    .insertBefore(".room-search")
-    .css({
-      position: "fixed",
-      width: "100%",
-      height: "100%",
-      backgroundColor: "rgba(0,0,0,.2)",
-      top: 0,
-      left: 0,
-      zIndex: 1
-  });
-  
-  $wrapper.click(calendar.closeForm);
-}
-
 calendar.autoClose = function() {
-  setTimeout(calendar.closeForm, 2000);
-}
-
-calendar.closeForm = function() {
-  $(".room-search").hide();
-  $wrapper.remove();
+  setTimeout(closeForm, 2000);
 }
 
 calendar.parseDate = function(dateStr) {
@@ -48,6 +25,31 @@ calendar.createDate = function(day) {
   var date = ("00" + day).slice(-2);
   return calendar.year + "-" + month + "-" +date;
 }
+
+
+function openForm($target) {
+  $target.addClass("modal-form").show();
+  //создаем враппер, чтобы ловить потом на нем клики и скрывать форму
+  $wrapper = $("<div>")
+    .insertBefore(".room-search")
+    .css({
+      position: "fixed",
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0,0,0,.2)",
+      top: 0,
+      left: 0,
+      zIndex: 1
+  });
+  
+  $wrapper.click(closeForm);
+}
+
+function closeForm() {
+  $(".modal-form").removeClass("modal-form").hide();
+  $wrapper.remove();
+}
+
 
 //Изменение месяца
 $(".calendar__month-prev").on("click", function() {
@@ -71,7 +73,9 @@ $(".calendar__month-next").on("click", function() {
 });
 
 
-$(".calendar .button").on("click", calendar.openForm);
+$(".calendar .button").on("click", function() {
+  openForm($(".room-search"));
+});
 
 
 //Обработка события "submit"
@@ -150,7 +154,7 @@ $(".room-search form").on("submit", function() {
     calendar.selectedDays.push(i+1);
   }
   
-  calendar.closeForm();
+  closeForm();
 })
 
 
@@ -175,5 +179,57 @@ $(".calendar__day-picker").on("click", function() {
   
   $("#check-in").val(calendar.createDate(startDay));
   $("#check-out").val(calendar.createDate(endDay));
-  calendar.openForm();
+  openForm($(".room-search"));
 })
+
+
+
+/**********************CHART****************/
+var chart = {};
+chart.fields = $(".chart__content");
+//Собираю текущие значения высот столбиков
+chart.columnValues = $(".chart__column-value").map(function() {
+  return +$(this).text();
+}).get();
+//Цена деления графика 69px/10
+chart.scalePoint = 6.9;
+
+$(".chart__button").on("click", function() {
+  event.preventDefault();
+  openForm($(".modal-chart-form"));
+  
+  //Вставляю в инпуты собранные заранее текущие значения высот столбиков
+  $(".chart__content").each(function(index) {
+    $(this).val(chart.columnValues[index]);
+  });
+  
+  $(".chart__content").first().focus();
+})
+
+$(".modal-chart-form form").on("submit", function() {
+  event.preventDefault();
+  
+  //Собираю введенные значения высот
+  chart.columnValues = $(".chart__content").map(function() {
+    if(+$(this).val() < 0 || +$(this).val() > 30) {
+      return +$(this).addClass("error");;
+    }
+    return +$(this).val();
+  }).get();
+  
+  //Перезаписываю старые значения на новые, чтобы уже новые значения появились в следующий раз при открытии формы
+  $(".chart__column-value").each(function(index) {
+    $(this).text(chart.columnValues[index]);
+  })
+  
+  
+  $(".chart__column").each(function(index) {
+    $(this).css("height", chart.columnValues[index]*6.9 + "px");
+  })
+  
+  
+  //Решила вместо value=true/false сделать так, но это наверное менее предпочтительный вариант, потому что снова трясем DOM?
+  if(!($(".chart__content").hasClass("error"))) {
+    closeForm();
+  }
+});
