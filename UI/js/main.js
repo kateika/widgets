@@ -235,15 +235,15 @@ $(".modal-chart-form form").on("submit", function() {
     }
   })
 
-  //207 = 69px * 3 секции. Нахожу цену деления графиков
-  chart.scalePoint = 207 / chart.maxColumnValue;
+  //210 = 70px * 3 секции. Нахожу цену деления графиков
+  chart.scalePoint = 210 / chart.maxColumnValue;
 
   //Находим, какая разница между числами должна быть в подписях шкалы
-  var section = Math.ceil(chart.maxColumnValue / 3);
+  var section = chart.maxColumnValue / 3;
 
   //Подписываем секции, как раз индекс совпадает с числом, на которой надо умножить section
   chart.scalePoints.forEach(function(point, index) {
-    $(point).text(section * index);
+    $(point).text(Math.round(section * index));
   });
 
   //Перезаписываю старые значения на новые, чтобы уже новые значения появились в 
@@ -346,6 +346,8 @@ $(".email form").on("submit", function() {
     $(this).removeClass("error-comments");
   });
 
+  /*Я не валидирую емэйл еще как-то, так как по моей задумке пользователь не может
+  писать адрес сам-только выбирать из списка. Контрол, который имел в виду дизайнер сделать я не успею*/
   if (email === "") {
     $(".recepients").addClass("error-comments");
   }
