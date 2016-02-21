@@ -507,6 +507,7 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 /*************** Email widget ************/
 
 .email {
+  display: none;
   position: absolute;
   top: 684px;
   left: 128px;
@@ -890,6 +891,7 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
   background: url(../images/sprite.png) no-repeat;
   color: white;
   float: left;
+  width: 27px;
   padding-left: 36px;
   line-height: 22px;
   margin-left: 22px;
@@ -908,3 +910,9 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 .place__likes {
   background-position: 0 -172px;
 }
+
+#place__map,
+#place__favourite {
+  display: none;
+}
+

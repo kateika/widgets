@@ -261,19 +261,17 @@ $(".modal-chart-form form").on("submit", function() {
 var place = {};
 place.counter = +($(".place__likes").text());
 place.tabs = $(".place__actions a");
+place.activeInfo = $("#place__descr");
+place.activeTab = $(".place__action_active");
 
+//По клику на лайк не должно срабатывать контекстное меню
 $(".place__likes").on("contextmenu", function() {
   event.preventDefault();
 })
 
-$(".place__likes").on("click", function() {
-  event.preventDefault();
-  if(event.button == 0) {
-    place.counter -= 1;
-    $(".place__likes").text(place.counter);
-  }
-})
-
+/*Приходится ставить прослушивание на mousedown,а не на click,так
+как он вообще не срабатывает для правой клавиши, когда мы делаем
+event.preventDefault() на контекстное меню*/
 $(".place__likes").on("mousedown", function() {
   event.preventDefault();
   if(event.button == 2) {
@@ -282,20 +280,41 @@ $(".place__likes").on("mousedown", function() {
   }
 })
 
-$(".place__actions").on("click", function() {
-  var $target = $(event.target);
+//Обычный клик левой кнопкой мыши работает хорошо
+$(".place__likes").on("click", function() {
   event.preventDefault();
-  
+  if(event.button == 0) {
+    place.counter -= 1;
+    $(".place__likes").text(place.counter);
+  }
+})
+
+//Переключатель табов
+$(".place__actions").on("click", function() {
+  event.preventDefault();
+  var $target = $(event.target);
+
   if($target.hasClass("place__action-info")) {
-    $("#place__descr").hide();
-    console.log(1);
+    toggleTab($target, $("#place__descr"));
   }
   if($target.hasClass("place__action-location")) {
-    $("#place__map").show();
-    console.log("2");
+    toggleTab($target, $("#place__map"));
   }
   if($target.hasClass("place__action-fav")) {
-    $("#place__favourite").show();
-    console.log("3");
+    toggleTab($target, $("#place__favourite"));
   }
+})
+
+function toggleTab(tab, info) {
+  place.activeInfo.hide();
+  place.activeTab.removeClass("place__action_active");
+  tab.addClass("place__action_active");
+  info.show();
+  place.activeInfo = info;
+  place.activeTab = tab;
+}
+
+$(".place__comments").on("click", function() {
+  event.preventDefault();
+  openForm($(".email"));
 })

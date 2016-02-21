@@ -141,32 +141,70 @@
       <li><a href="#" class="place__action place__action-location"></a></li>
       <li><a href="#" class="place__action place__action-fav"></a></li>
     </ul>
+    
+    <div id="place__descr">
+      <div class="place__info">
+        <h2 class="place__title">
+          My most favourite<br />
+          place in the world
+        </h2>
 
+        <div class="place__reviews">
+          <span class="place__reviews-number">154</span>
+          Reviews
+        </div>
+
+        <!-- we wrap description in div, as it might come from the database -->
+        <div class="place__description">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas a pulvinar ipsum. Aliquam sit amet iaculis dolor. Vivamus sed diam sollicitudin.</p>
+        </div>
+
+        <a class="place__read-more" href="#">Read more</a>
+      </div>
+
+      <!-- inline style here because photo is content, and we want to protect it from download -->
+      <div class="place__photo" style="background-image: url(pic/place-photo.jpg);">
+        <div class="place__stats">
+          <a class="place__comments" href="#" >752</a>
+          <a class="place__likes" href="#">2709</a>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div id="place__map">
     <div class="place__info">
       <h2 class="place__title">
-        My most favourite<br />
-        place in the world
+        You could find us here
       </h2>
 
-      <div class="place__reviews">
-        <span class="place__reviews-number">154</span>
-        Reviews
-      </div>
-
-      <!-- we wrap description in div, as it might come from the database -->
       <div class="place__description">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas a pulvinar ipsum. Aliquam sit amet iaculis dolor. Vivamus sed diam sollicitudin.</p>
+        <p>London, 221B Baker Street</p>
       </div>
 
-      <a class="place__read-more" href="#">Read more</a>
+      <a class="place__read-more" href="#">See on map</a>
     </div>
 
-    <!-- inline style here because photo is content, and we want to protect it from download -->
-    <div class="place__photo" style="background-image: url(pic/place-photo.jpg);">
-      <div class="place__stats">
-        <a class="place__comments" href="#" >752</a>
-        <a class="place__likes" href="#">2709</a>
+    <div class="place__photo" style="background-image: url(pic/map.jpg);"></div>
+    </div>
+    
+    
+    <div id="place__favourite">
+      <div class="place__info">
+        <h2 class="place__title">
+          My list of favourite places in the world
+        </h2>
+        <div class="place__reviews">
+          <span class="place__reviews-number">14</span>
+          places
+        </div>
+        <div class="place__description">
+          <p>1. Sintra<br/>2. Thai</p>
+        </div>
+        <a class="place__read-more" href="#">See all list</a>
       </div>
+
+      <div class="place__photo" style="background-image: url(pic/favorite.jpg);"></div>
     </div>
   </div>
 
