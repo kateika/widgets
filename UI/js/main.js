@@ -199,7 +199,8 @@ chart.columnValues = $(".chart__column-value").map(function() {
 chart.maxColumnValue = chart.columnValues[0];
 //Цена деления
 chart.scalePoint = 0;
-//Превращаю jQuery массив в обычный и переворачиваю, чтобы потом было удобнее работать (см ниже chart.scalePoints.forEach)
+//Превращаю jQuery массив в обычный и переворачиваю, чтобы потом было удобнее 
+//работать (см ниже chart.scalePoints.forEach)
 chart.scalePoints = $(".chart__scale-point").get().reverse();
 
 $(".chart__button").on("click", function() {
@@ -245,14 +246,16 @@ $(".modal-chart-form form").on("submit", function() {
     $(point).text(section * index);
   });
 
-  //Перезаписываю старые значения на новые, чтобы уже новые значения появились в следующий раз в инпутах при открытии формы
+  //Перезаписываю старые значения на новые, чтобы уже новые значения появились в 
+  //следующий раз в инпутах при открытии формы
   $(".chart__column").each(function(index) {
     $(this).find(".chart__column-value").text(chart.columnValues[index]);
     $(this).css("height", chart.columnValues[index] * chart.scalePoint + "px");
   })
 
 
-  //Решила вместо value=true/false сделать так, но это наверное менее предпочтительный вариант, потому что снова трясем DOM?
+  //Решила вместо value=true/false сделать так, но это наверное менее предпочтительный 
+  //вариант, потому что снова трясем DOM?
   if (!($(".chart__content").hasClass("error"))) {
     closeForm();
   }
@@ -321,11 +324,10 @@ function toggleTab(tab, info) {
 $(".place__comments").on("click", function() {
   event.preventDefault();
   openForm($(".email"));
-  $(".email input.input__content").focus();
+  $(".recepients input.input__content").focus();
   //Очистка полей формы перед новым комментарием
-//  $(".recepients .input__tokens").empty();
-  $(".email input.input__content").val("");
-  $(".email textarea.input__content").val("");
+//Это надо для задания со звездочкой  $(".recepients .input__tokens").empty();
+  $(".email .input__content").val("");
 })
 
 
@@ -335,23 +337,29 @@ $(".email form").on("submit", function() {
   
   //Запоминаю текущее количество комментариев
   var numberOfComments = +($(".place__comments").text());
-  var recepients = $(".recepients .input__tokens").children();
+//Это надо для задания со звездочкой var recepients = $(".recepients .input__tokens").children();
+  var email = $(".recepients input.input__content").val();
   var subject = $(".email input.input__content").val();
   var message = $(".email textarea.input__content").val();
   
   $(".error-comments").each(function() {
     $(this).removeClass("error-comments");
   });
+
+  if (email === "") {
+    $(".recepients").addClass("error-comments");
+  }
   
   if (subject === "") {
     $(".subject").addClass("error-comments");
   }
+  
   if (message === "") {
     $(".message").addClass("error-comments");
   }
-  if (recepients.size() < 1) {
-    $(".recepients").addClass("error-comments");
-  }
+//Это надо для задания со звездочкой  if (recepients.size() < 1) {
+//    $(".recepients").addClass("error-comments");
+//  }
   
   if (!($(".email__input").hasClass("error-comments"))) {
     closeForm();
