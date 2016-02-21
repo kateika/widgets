@@ -191,8 +191,12 @@ chart.fields = $(".chart__content");
 chart.columnValues = $(".chart__column-value").map(function() {
   return +$(this).text();
 }).get();
-//Цена деления графика 69px/10
-chart.scalePoint = 6.9;
+//Присваиваем максимальное значение для начала первому значению
+chart.maxColumnValue = chart.columnValues[0];
+//Цена деления
+chart.scalePoint = 0;
+//Превращаю jQuery массив в обычный и переворачиваю, чтобы потом было удобнее работать (см ниже chart.scalePoints.forEach)
+chart.scalePoints = $(".chart__scale-point").get().reverse();
 
 $(".chart__button").on("click", function() {
   event.preventDefault();
@@ -209,27 +213,89 @@ $(".chart__button").on("click", function() {
 $(".modal-chart-form form").on("submit", function() {
   event.preventDefault();
   
-  //Собираю введенные значения высот
+  //Собираю введенные значения высот в обычный массив
   chart.columnValues = $(".chart__content").map(function() {
-    if(+$(this).val() < 0 || +$(this).val() > 30) {
+    if(+$(this).val() < 0 || +$(this).val() > 9999) {
       return +$(this).addClass("error");;
     }
     return +$(this).val();
   }).get();
   
-  //Перезаписываю старые значения на новые, чтобы уже новые значения появились в следующий раз при открытии формы
-  $(".chart__column-value").each(function(index) {
-    $(this).text(chart.columnValues[index]);
-  })
-  
   
   $(".chart__column").each(function(index) {
-    $(this).css("height", chart.columnValues[index]*6.9 + "px");
+    //Находим максимальное значение из введенных
+    if(chart.columnValues[index] >= chart.maxColumnValue) {
+      chart.maxColumnValue = chart.columnValues[index];
+    }
   })
-  
-  
+
+  //207 = 69px * 3 секции. Нахожу цену деления графиков
+  chart.scalePoint = 207 / chart.maxColumnValue;
+
+  //Находим, какая разница между числами должна быть в подписях шкалы
+  var section = Math.ceil(chart.maxColumnValue / 3);
+
+  //Подписываем секции, как раз индекс совпадает с числом, на которой надо умножить section
+  chart.scalePoints.forEach(function(point, index) {
+    $(point).text(section * index);
+  });
+
+  //Перезаписываю старые значения на новые, чтобы уже новые значения появились в следующий раз в инпутах при открытии формы
+  $(".chart__column").each(function(index) {
+    $(this).find(".chart__column-value").text(chart.columnValues[index]);
+    $(this).css("height", chart.columnValues[index] * chart.scalePoint + "px");
+  })
+
+
   //Решила вместо value=true/false сделать так, но это наверное менее предпочтительный вариант, потому что снова трясем DOM?
   if(!($(".chart__content").hasClass("error"))) {
     closeForm();
   }
 });
+
+
+
+
+
+/*********************PLACE*******************/
+var place = {};
+place.counter = +($(".place__likes").text());
+place.tabs = $(".place__actions a");
+
+$(".place__likes").on("contextmenu", function() {
+  event.preventDefault();
+})
+
+$(".place__likes").on("click", function() {
+  event.preventDefault();
+  if(event.button == 0) {
+    place.counter -= 1;
+    $(".place__likes").text(place.counter);
+  }
+})
+
+$(".place__likes").on("mousedown", function() {
+  event.preventDefault();
+  if(event.button == 2) {
+    place.counter += 1;
+    $(".place__likes").text(place.counter);
+  }
+})
+
+$(".place__actions").on("click", function() {
+  var $target = $(event.target);
+  event.preventDefault();
+  
+  if($target.hasClass("place__action-info")) {
+    $("#place__descr").hide();
+    console.log(1);
+  }
+  if($target.hasClass("place__action-location")) {
+    $("#place__map").show();
+    console.log("2");
+  }
+  if($target.hasClass("place__action-fav")) {
+    $("#place__favourite").show();
+    console.log("3");
+  }
+})
