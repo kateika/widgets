@@ -88,16 +88,16 @@ $(".room-search form").on("submit", function() {
   });
   
   //сохраняем значения, которые ввели в поля
-  var $checkInValue = $("#check-in").val();
-  var $checkOutValue = $("#check-out").val();
+  var checkInValue = $("#check-in").val();
+  var checkOutValue = $("#check-out").val();
   var valid = true;
   
-  if ($checkInValue === "") {
+  if (checkInValue === "") {
     valid = false;
     $("#check-in").addClass("error");
   }
   
-  if ($checkOutValue === "") {
+  if (checkOutValue === "") {
     valid = false;
     $("#check-out").addClass("error");
   }
@@ -109,8 +109,8 @@ $(".room-search form").on("submit", function() {
     return;
   }
 
-  var checkInDate = calendar.parseDate($checkInValue);
-  var checkOutDate = calendar.parseDate($checkOutValue);
+  var checkInDate = calendar.parseDate(checkInValue);
+  var checkOutDate = calendar.parseDate(checkOutValue);
    
   //Проверяем, чтобы дата въезда была раньше даты выезда (выбрать можно только
   //текущий месяц и год)
@@ -215,7 +215,8 @@ $(".modal-chart-form form").on("submit", function() {
   
   //Собираю введенные значения высот в обычный массив
   chart.columnValues = $(".chart__content").map(function() {
-    if(+$(this).val() < 0 || +$(this).val() > 9999) {
+    //Ограничение в 9999 - искусственное, график хорошо работает при любых значениях
+    if (+$(this).val() < 0 || +$(this).val() > 9999) {
       return +$(this).addClass("error");;
     }
     return +$(this).val();
@@ -224,7 +225,7 @@ $(".modal-chart-form form").on("submit", function() {
   
   $(".chart__column").each(function(index) {
     //Находим максимальное значение из введенных
-    if(chart.columnValues[index] >= chart.maxColumnValue) {
+    if (chart.columnValues[index] >= chart.maxColumnValue) {
       chart.maxColumnValue = chart.columnValues[index];
     }
   })
@@ -248,11 +249,10 @@ $(".modal-chart-form form").on("submit", function() {
 
 
   //Решила вместо value=true/false сделать так, но это наверное менее предпочтительный вариант, потому что снова трясем DOM?
-  if(!($(".chart__content").hasClass("error"))) {
+  if (!($(".chart__content").hasClass("error"))) {
     closeForm();
   }
 });
-
 
 
 
@@ -274,7 +274,7 @@ $(".place__likes").on("contextmenu", function() {
 event.preventDefault() на контекстное меню*/
 $(".place__likes").on("mousedown", function() {
   event.preventDefault();
-  if(event.button == 2) {
+  if (event.button == 2) {
     place.counter += 1;
     $(".place__likes").text(place.counter);
   }
@@ -283,7 +283,7 @@ $(".place__likes").on("mousedown", function() {
 //Обычный клик левой кнопкой мыши работает хорошо
 $(".place__likes").on("click", function() {
   event.preventDefault();
-  if(event.button == 0) {
+  if (event.button == 0) {
     place.counter -= 1;
     $(".place__likes").text(place.counter);
   }
@@ -294,13 +294,13 @@ $(".place__actions").on("click", function() {
   event.preventDefault();
   var $target = $(event.target);
 
-  if($target.hasClass("place__action-info")) {
+  if ($target.hasClass("place__action-info")) {
     toggleTab($target, $("#place__descr"));
   }
-  if($target.hasClass("place__action-location")) {
+  if ($target.hasClass("place__action-location")) {
     toggleTab($target, $("#place__map"));
   }
-  if($target.hasClass("place__action-fav")) {
+  if ($target.hasClass("place__action-fav")) {
     toggleTab($target, $("#place__favourite"));
   }
 })
@@ -317,4 +317,40 @@ function toggleTab(tab, info) {
 $(".place__comments").on("click", function() {
   event.preventDefault();
   openForm($(".email"));
+  $(".email input.input__content").focus();
+})
+
+
+var email = {};
+
+
+$(".email form").on("submit", function() {
+  event.preventDefault();
+
+  var recepients = $(".recepients .input__tokens").children();
+  var subject = $(".email input.input__content").val();
+  var message = $(".email textarea.input__content").val();
+  
+  $(".error-comments").each(function() {
+    $(this).removeClass("error-comments");
+  });
+  
+  if (subject === "") {
+    $(".subject").addClass("error-comments");
+  }
+  if (message === "") {
+    $(".message").addClass("error-comments");
+  }
+  if (recepients.size() < 1) {
+    $(".recepients").addClass("error-comments");
+  }
+  
+  if (!($(".email__input").hasClass("error-comments"))) {
+    closeForm();
+  }
+})
+
+$(".cancel").on("click", function() {
+  event.preventDefault();
+  closeForm();
 })

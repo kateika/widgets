@@ -504,6 +504,10 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
   color: red;
 }
 
+.error-comments {
+  border-color: red;
+}
+
 /*************** Email widget ************/
 
 .email {
@@ -560,6 +564,7 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 
 .token {
   display: inline-block;
+/*  display: none;*/
   background-color: #414b59;
   color: white;
   padding: 0 0 0 10px;
