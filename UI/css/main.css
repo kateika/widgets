@@ -98,7 +98,7 @@ body {
   position: absolute;
   top: 3px;
   right: 3px;
-  width: 37px;
+  width: 34px;
   height: 37px;
   background-color: #414b59;
   border-radius: 1px;
@@ -106,7 +106,7 @@ body {
 }
 
 .input__picker:hover {
-  background-color: #556375;
+  background-color: #ccc;
 }
 
 .input__label {
@@ -529,7 +529,7 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 .email__picker:before {
   content: "";
   position: absolute;
-  top: 10px;
+  top: 11px;
   right: 16px;
   display: inline-block;
   background-color: transparent;
@@ -541,7 +541,7 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 .email__picker:after {
   content: "";
   position: absolute;
-  top: 1px;
+  top: 2px;
   right: 9px;
   display: inline-block;
   background-color: transparent;
@@ -558,8 +558,17 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 }
 
 /* token input component */
+/*
 .input__tokens {
   padding: 3px 45px 1px 3px;
+}
+*/
+
+.input__tokens {
+  color: #999;
+  line-height: 41px;
+  padding: 3px 45px 1px 0;
+  padding-left: 13px; /*for js*/
 }
 
 .token {
@@ -570,6 +579,7 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
   padding: 0 0 0 10px;
   line-height: 37px;
   margin-bottom: 4px;
+  margin-right: 4px;
 }
 
 .token__value {
@@ -577,7 +587,8 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
   letter-spacing: 0.4px;
 }
 
-.token__delete {
+.token__button {
+  cursor: pointer;
   position: relative;
   width: 22px;
   height: 37px;
@@ -585,8 +596,8 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
   background: transparent;
 }
 
-.token__delete:before,
-.token__delete:after {
+.token__button:before,
+.token__button:after {
   content: "";
   position: absolute;
   display: block;
@@ -597,13 +608,13 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
   top: 19px;
 }
 
-.token__delete:before {
+.token__button:before {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 
-.token__delete:after {
+.token__button:after {
   -webkit-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
@@ -656,6 +667,49 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 
 .cancel:hover {
   background-color: #576476;
+}
+
+
+.list__recepients {
+  display: none;
+  position: absolute;
+  top: 43px;
+  right: -1px;
+  z-index: 3;
+  min-width: 200px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+}
+
+.list__recepients .token {
+  cursor: pointer;
+  display: block;
+  margin-right: 0;
+}
+
+.list__recepients .token:last-child {
+  margin-bottom: 0;
+}
+
+.list__recepients .token:hover {
+  background-color: #4e5a6a;
+}
+
+.list__recepients .token__button {
+  position: absolute;
+  right: 0;
+}
+
+.list__recepients .token__button:before {
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.list__recepients .token__button:after {
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 /*************** Chart widget ************/
 

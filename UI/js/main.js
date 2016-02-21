@@ -326,19 +326,24 @@ $(".place__comments").on("click", function() {
   openForm($(".email"));
   $(".recepients input.input__content").focus();
   //Очистка полей формы перед новым комментарием
-//Это надо для задания со звездочкой  $(".recepients .input__tokens").empty();
+  if(commentForm.recepients.length > 0) {
+    $(".input__tokens").css("paddingLeft", "13px").text('Click on "+" button to add email');
+  }
   $(".email .input__content").val("");
 })
 
 
 //comment form
+
+var commentForm = {};
+commentForm.recepients = [];
+commentForm.recepientsInput = $(".recepients input[name=emails]");
+
 $(".email form").on("submit", function() {
   event.preventDefault();
   
   //Запоминаю текущее количество комментариев
   var numberOfComments = +($(".place__comments").text());
-//Это надо для задания со звездочкой var recepients = $(".recepients .input__tokens").children();
-  var email = $(".recepients input.input__content").val();
   var subject = $(".email input.input__content").val();
   var message = $(".email textarea.input__content").val();
   
@@ -348,7 +353,7 @@ $(".email form").on("submit", function() {
 
   /*Я не валидирую емэйл еще как-то, так как по моей задумке пользователь не может
   писать адрес сам-только выбирать из списка. Контрол, который имел в виду дизайнер сделать я не успею*/
-  if (email === "") {
+  if (!commentForm.recepients.length) {
     $(".recepients").addClass("error-comments");
   }
   
@@ -359,9 +364,6 @@ $(".email form").on("submit", function() {
   if (message === "") {
     $(".message").addClass("error-comments");
   }
-//Это надо для задания со звездочкой  if (recepients.size() < 1) {
-//    $(".recepients").addClass("error-comments");
-//  }
   
   if (!($(".email__input").hasClass("error-comments"))) {
     closeForm();
@@ -374,4 +376,45 @@ $(".email form").on("submit", function() {
 $(".cancel").on("click", function() {
   event.preventDefault();
   closeForm();
+})
+
+
+$(".email__picker").on("click", function() {
+  event.preventDefault();
+  $(".list__recepients").toggle("fast");
+})
+
+$(".list__recepients .token").on("click", function() {
+  event.preventDefault();
+  var $target = $(event.target);
+  //Чтобы адрес не удалялся из основного списка
+  var $recepient = $target.closest(".token").clone();
+  
+  //Подправляем css стили
+  if(!commentForm.recepients.length) {
+    $(".input__tokens").css("paddingLeft", "3px").text("");
+  }
+  
+  $(".input__tokens").append($recepient);
+  //Берем текст мэйла и добавляем в массив, потом будем использовать, чтобы добавлять в
+  //инпут, валидировать форму (массив нужен, чтобы не запрашивать инфу у DOM)
+  var email = $recepient.find(".token__value").text();
+  commentForm.recepients.push(email);
+  
+  //Так как у нас ненастоящий инпут, а див и input type="hidden", то надо в этот
+  //инпут передать значения введенных мейлов, чтобы отправить на сервер
+  commentForm.recepientsInput.val(commentForm.recepients.join(","));
+  $(".list__recepients").hide();
+  
+  //Мы добавляем обработчик на кнопку удаления у клонированной ноды
+  $recepient.find(".token__button").on("click", function() {
+    $recepient.remove();
+    //Удаляем мейл из списка 
+    commentForm.recepients = commentForm.recepients.filter(function(m) { return m != email; });
+    commentForm.recepientsInput.val(commentForm.recepients.join(","));
+    //Когда удаляем все мейлы, то надо снова вставить надпись о кнопке
+    if(!commentForm.recepients.length) {
+      $(".input__tokens").css("paddingLeft", "13px").text('Click on "+" button to add email');
+    }
+  })
 })
