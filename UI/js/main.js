@@ -75,6 +75,10 @@ $(".calendar__month-next").on("click", function() {
 
 $(".calendar .button").on("click", function() {
   openForm($(".room-search"));
+  //Убираем предыдущие помеченные ошибки
+  $(".error").each(function() {
+    $(this).removeClass("error");
+  });
 });
 
 
@@ -82,7 +86,7 @@ $(".calendar .button").on("click", function() {
 $(".room-search form").on("submit", function() {
   event.preventDefault();
   
-  //Убираем предыдущие помеченные ошибки
+  //Убираем предыдущие помеченные ошибки (конкретно здесь это надо,если отменить закрытие формы через 2 секунды)
   $(".error").each(function() {
     $(this).removeClass("error");
   });
@@ -318,15 +322,19 @@ $(".place__comments").on("click", function() {
   event.preventDefault();
   openForm($(".email"));
   $(".email input.input__content").focus();
+  //Очистка полей формы перед новым комментарием
+//  $(".recepients .input__tokens").empty();
+  $(".email input.input__content").val("");
+  $(".email textarea.input__content").val("");
 })
 
 
-var email = {};
-
-
+//comment form
 $(".email form").on("submit", function() {
   event.preventDefault();
-
+  
+  //Запоминаю текущее количество комментариев
+  var numberOfComments = +($(".place__comments").text());
   var recepients = $(".recepients .input__tokens").children();
   var subject = $(".email input.input__content").val();
   var message = $(".email textarea.input__content").val();
@@ -348,6 +356,9 @@ $(".email form").on("submit", function() {
   if (!($(".email__input").hasClass("error-comments"))) {
     closeForm();
   }
+  
+  //Так красивее:)
+  $(".place__comments").text(numberOfComments +=1);
 })
 
 $(".cancel").on("click", function() {
