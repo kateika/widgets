@@ -395,12 +395,23 @@ $(".list__recepients .token").on("click", function() {
     $(".input__tokens").css("paddingLeft", "3px").text("");
   }
   
-  $(".input__tokens").append($recepient);
-  //Берем текст мэйла и добавляем в массив, потом будем использовать, чтобы добавлять в
-  //инпут, валидировать форму (массив нужен, чтобы не запрашивать инфу у DOM)
+  
+  
+  //Текст мейла
   var email = $recepient.find(".token__value").text();
+  
+  //Адрес мейла смотрим в нашем массиве, чтобы не добавлять его повторно в инпут
+  if(commentForm.recepients.indexOf(email) !== -1) {
+    $(".list__recepients").hide();
+    return;
+  }
+
+  //Если такого мейла еше нет,то добавляем его в DOM, и в массив, потом будем использовать, чтобы добавлять в
+  //инпут, валидировать форму (массив нужен, чтобы не запрашивать инфу у DOM).
+  $(".input__tokens").append($recepient);
   commentForm.recepients.push(email);
   
+
   //Так как у нас ненастоящий инпут, а див и input type="hidden", то надо в этот
   //инпут передать значения введенных мейлов, чтобы отправить на сервер
   commentForm.recepientsInput.val(commentForm.recepients.join(","));
@@ -409,7 +420,7 @@ $(".list__recepients .token").on("click", function() {
   //Мы добавляем обработчик на кнопку удаления у клонированной ноды
   $recepient.find(".token__button").on("click", function() {
     $recepient.remove();
-    //Удаляем мейл из списка 
+    //Удаляем мейл из списка (m - мейл)
     commentForm.recepients = commentForm.recepients.filter(function(m) { return m != email; });
     commentForm.recepientsInput.val(commentForm.recepients.join(","));
     //Когда удаляем все мейлы, то надо снова вставить надпись о кнопке
