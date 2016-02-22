@@ -1,3 +1,5 @@
+(function(){
+  
 var $wrapper;
 
 var calendar = {};
@@ -443,3 +445,5 @@ $(".email__file-picker input[type=file]").on("change", function() {
     console.log(file.name);
   })
 })
+
+})();
