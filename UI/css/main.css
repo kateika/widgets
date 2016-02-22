@@ -975,3 +975,9 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
   display: none;
 }
 
+#file__list {
+  display: none;
+  margin-top: -20px;
+  margin-bottom: 23px;
+  text-align: right;
+}

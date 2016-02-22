@@ -203,7 +203,7 @@ chart.scalePoint = 0;
 //работать (см ниже chart.scalePoints.forEach)
 chart.scalePoints = $(".chart__scale-point").get().reverse();
 
-$(".chart__button").on("click", function() {
+$(".chart__button").on("click", function(event) {
   event.preventDefault();
   openForm($(".modal-chart-form"));
   
@@ -221,10 +221,11 @@ $(".modal-chart-form form").on("submit", function() {
   //Собираю введенные значения высот в обычный массив
   chart.columnValues = $(".chart__content").map(function() {
     //Ограничение в 9999 - искусственное, график хорошо работает при любых значениях
-    if (+$(this).val() < 0 || +$(this).val() > 9999) {
-      return +$(this).addClass("error");;
+    var value = +$(this).val();
+    if (value < 0 || value > 9999 || isNaN(value)) {
+      $(this).addClass("error");
     }
-    return +$(this).val();
+    return value;
   }).get();
   
   
@@ -272,14 +273,14 @@ place.activeInfo = $("#place__descr");
 place.activeTab = $(".place__action_active");
 
 //По клику на лайк не должно срабатывать контекстное меню
-$(".place__likes").on("contextmenu", function() {
+$(".place__likes").on("contextmenu", function(event) {
   event.preventDefault();
 })
 
 /*Приходится ставить прослушивание на mousedown,а не на click,так
 как он вообще не срабатывает для правой клавиши, когда мы делаем
 event.preventDefault() на контекстное меню*/
-$(".place__likes").on("mousedown", function() {
+$(".place__likes").on("mousedown", function(event) {
   event.preventDefault();
   if (event.button == 2) {
     place.counter += 1;
@@ -288,7 +289,7 @@ $(".place__likes").on("mousedown", function() {
 })
 
 //Обычный клик левой кнопкой мыши работает хорошо
-$(".place__likes").on("click", function() {
+$(".place__likes").on("click", function(event) {
   event.preventDefault();
   if (event.button == 0) {
     place.counter -= 1;
@@ -297,7 +298,7 @@ $(".place__likes").on("click", function() {
 })
 
 //Переключатель табов
-$(".place__actions").on("click", function() {
+$(".place__actions").on("click", function(event) {
   event.preventDefault();
   var $target = $(event.target);
 
@@ -321,7 +322,7 @@ function toggleTab(tab, info) {
   place.activeTab = tab;
 }
 
-$(".place__comments").on("click", function() {
+$(".place__comments").on("click", function(event) {
   event.preventDefault();
   openForm($(".email"));
   $(".recepients input.input__content").focus();
@@ -339,7 +340,7 @@ var commentForm = {};
 commentForm.recepients = [];
 commentForm.recepientsInput = $(".recepients input[name=emails]");
 
-$(".email form").on("submit", function() {
+$(".email form").on("submit", function(event) {
   event.preventDefault();
   
   //Запоминаю текущее количество комментариев
@@ -367,24 +368,24 @@ $(".email form").on("submit", function() {
   
   if (!($(".email__input").hasClass("error-comments"))) {
     closeForm();
+    //Так красивее:)
+    $(".place__comments").text(numberOfComments += 1);
   }
   
-  //Так красивее:)
-  $(".place__comments").text(numberOfComments +=1);
 })
 
-$(".cancel").on("click", function() {
+$(".cancel").on("click", function(event) {
   event.preventDefault();
   closeForm();
 })
 
 
-$(".email__picker").on("click", function() {
+$(".email__picker").on("click", function(event) {
   event.preventDefault();
   $(".list__recepients").toggle("fast");
 })
 
-$(".list__recepients .token").on("click", function() {
+$(".list__recepients .token").on("click", function(event) {
   event.preventDefault();
   var $target = $(event.target);
   //Чтобы адрес не удалялся из основного списка
@@ -427,5 +428,18 @@ $(".list__recepients .token").on("click", function() {
     if(!commentForm.recepients.length) {
       $(".input__tokens").css("paddingLeft", "13px").text('Click on "+" button to add email');
     }
+  })
+})
+
+
+
+//type file
+$(".email__file-picker input[type=file]").on("change", function() {
+  var li;
+  $(this.files).each(function(index, file) {
+    li = $("<li/>").text(file.name);
+    //Изначально прячем, чтобы не менять css стили
+    $("#file__list").show().append(li);
+    console.log(file.name);
   })
 })
