@@ -2,16 +2,19 @@
   
 var $wrapper;
 
+var today = new Date().getDate();
+
 var calendar = {};
 calendar.year = new Date().getFullYear();
-/*calendar.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];*/
-calendar.month = new Date().getMonth();
+calendar.month = new Date().getMonth() + 1;
 calendar.title = $(".calendar__current-month");
 calendar.days = $("td.calendar__day:not(.calendar__day_disabled)");
 calendar.selectedDays = [];
+
 calendar.autoClose = function() {
   setTimeout(closeForm, 2000);
 }
+
 
 calendar.parseDate = function(dateStr) {
   var date = new Date(dateStr);
@@ -21,12 +24,15 @@ calendar.parseDate = function(dateStr) {
   return {day: day, month: month, year: year};
 }
 
+
 calendar.createDate = function(day) {
   var month = ("00" + calendar.month).slice(-2);
   var date = ("00" + day).slice(-2);
   console.log(calendar.year + "-" + month + "-" +date);
   return calendar.year + "-" + month + "-" +date;
 }
+
+$("#check-in").attr("min",calendar.createDate(today));
 
 function openForm($target) {
   $target.addClass("modal-form").show();
@@ -51,29 +57,6 @@ function closeForm() {
   $wrapper.remove();
 }
 
-
-/*//Изменение месяца
-$(".calendar__month-prev").on("click", function() {
-  event.preventDefault();
-  calendar.month--;
-  if (calendar.month == -1) {
-    calendar.month = 11;
-    calendar.year--;
-  }
-  calendar.title.text(calendar.monthNames[calendar.month] + " " + calendar.year);
-});
-
-$(".calendar__month-next").on("click", function() {
-  event.preventDefault();
-  calendar.month++;
-  if (calendar.month == 12) {
-    calendar.month = 0;
-    calendar.year++;
-  }
-  calendar.title.text(calendar.monthNames[calendar.month] + " " + calendar.year);
-});*/
-
-
 $(".calendar .button").on("click", function() {
   openForm($(".room-search"));
   //Убираем предыдущие помеченные ошибки
@@ -96,7 +79,7 @@ $(".room-search form").on("submit", function() {
   var checkInValue = $("#check-in").val();
   var checkOutValue = $("#check-out").val();
   var valid = true;
-  //console.log("checkInValue"+checkInValue);
+  console.log("checkInValue"+checkInValue);
   if (checkInValue === "") {
     valid = false;
     $("#check-in").addClass("error");
@@ -126,12 +109,6 @@ $(".room-search form").on("submit", function() {
     $(".room-search__date").addClass("error");
   }
   
-/*  //В данном случае проверяем введенный месяц и год с текущим месяцем и годом календаря
-  if (checkInDate.month !== calendar.month && checkInDate.year !== calendar.year) {
-    valid = false;
-    $(".room-search__date").addClass("error");
-  }
-  */
   
   var day;
   //Если какой-нибудь день из выбранного периода оказывается забронированным раньше
