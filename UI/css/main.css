@@ -119,9 +119,10 @@ body {
   padding: 9px 5px 10px 12px;
   font-family: "Gotham", "Arial", sans-serif;
   font-size: 14px;
-  line-height: 26px;
+  line-height: 1.5;
   width: 100%;
   box-sizing: border-box;
+  color: gray;
 }
 
 .select__value {
@@ -500,10 +501,10 @@ body {
 
 input[type="date"]::-webkit-inner-spin-button { display: none; }
 
-.error {
-  color: red;
-}
 
+.error {
+  outline: 1px solid red;
+}
 .error-comments {
   border-color: red;
 }
