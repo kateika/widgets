@@ -28,7 +28,6 @@ calendar.parseDate = function(dateStr) {
 calendar.createDate = function(day) {
   var month = ("00" + calendar.month).slice(-2);
   var date = ("00" + day).slice(-2);
-  console.log(calendar.year + "-" + month + "-" +date);
   return calendar.year + "-" + month + "-" +date;
 }
 
@@ -79,7 +78,6 @@ $(".room-search form").on("submit", function() {
   var checkInValue = $("#check-in").val();
   var checkOutValue = $("#check-out").val();
   var valid = true;
-  console.log("checkInValue"+checkInValue);
   if (checkInValue === "") {
     valid = false;
     $("#check-in").addClass("error");
@@ -99,7 +97,7 @@ $(".room-search form").on("submit", function() {
 
   var checkInDate = calendar.parseDate(checkInValue);
   var checkOutDate = calendar.parseDate(checkOutValue);
-   //console.log(checkInDate,checkOutDate);
+
   //Проверяем, чтобы дата въезда была раньше даты выезда (выбрать можно только
   //текущий месяц и год)
   if (checkInDate.day > checkOutDate.day 
@@ -108,7 +106,6 @@ $(".room-search form").on("submit", function() {
     valid = false;
     $(".room-search__date").addClass("error");
   }
-  
   
   var day;
   //Если какой-нибудь день из выбранного периода оказывается забронированным раньше
@@ -141,16 +138,15 @@ $(".room-search form").on("submit", function() {
 
 
 /*Сценарий2: по клику на помеченном числе из формы1 снова открывается форма2, но
-уже ЗАПОЛНЕННАЯ информацией.*/
+уже ЗАПОЛНЕННАЯ информацией.
 $(".calendar__day-picker").on("click", function() {
   var $target = $(event.target);
-	console.log($target);
   if (!$target.hasClass("calendar__day_selected")) return;
   
   //Начинаем искать последний и первый день из промежутка, начиная с выбранной даты
   var endDay = +$target.text();
   var startDay = +$target.text();
-  
+  console.log(startDay);
   while (calendar.days[endDay].classList.contains("calendar__day_selected")) {
     endDay++;
   }
@@ -158,13 +154,13 @@ $(".calendar__day-picker").on("click", function() {
   while (calendar.days[startDay-2].classList.contains("calendar__day_selected")) {
     startDay--;
   }
-  
+
   
   $("#check-in").val(calendar.createDate(startDay));
   $("#check-out").val(calendar.createDate(endDay));
   openForm($(".room-search"));
 })
-
+  */
 
 
 /**********************CHART****************/
@@ -419,7 +415,6 @@ $(".email__file-picker input[type=file]").on("change", function() {
     li = $("<li/>").text(file.name);
     //Изначально прячем, чтобы не менять css стили
     $("#file__list").show().append(li);
-    console.log(file.name);
   })
 })
 
