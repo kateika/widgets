@@ -948,7 +948,7 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 
 .place__comments,
 .place__likes {
-  background: url(../images/sprite.png) no-repeat;
+  background: url(../images/sprite.png) 100% 100% no-repeat;
   color: white;
   float: left;
   width: 27px;
@@ -961,6 +961,20 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 .place__comments:hover,
 .place__likes:hover {
   opacity: .95;
+}
+
+@keyframes userAction {
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.like {
+  animation: userAction .5s;
+}
+
+.dislike {
+  animation: userAction .5s;
 }
 
 .place__comments {

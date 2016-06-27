@@ -255,16 +255,30 @@ place.tabs = $(".place__actions a");
 place.activeInfo = $("#place__descr");
 place.activeTab = $(".place__action_active");
 
+var $likes = $(".place__likes");
+  
 //По клику на лайк не должно срабатывать контекстное меню
-$(".place__likes").on("contextmenu", function(event) {
+$likes.on("contextmenu", function(event) {
   event.preventDefault();
 })
 
 /*Приходится ставить прослушивание на mousedown,а не на click,так
 как он вообще не срабатывает для правой клавиши, когда мы делаем
 event.preventDefault() на контекстное меню*/
-$(".place__likes").on("mousedown", function(event) {
+$likes.on("mousedown", function(event) {
   event.preventDefault();
+
+  $likes.addClass("like");
+  
+  setTimeout(function() {
+    $likes.removeClass("like");
+  }, 500);
+  
+   
+  if($likes.hasClass("dislike")) {
+    $likes.removeClass("dislike");
+  };
+
   if (event.button == 2) {
     place.counter += 1;
     $(".place__likes").text(place.counter);
@@ -272,13 +286,25 @@ $(".place__likes").on("mousedown", function(event) {
 })
 
 //Обычный клик левой кнопкой мыши работает хорошо
-$(".place__likes").on("click", function(event) {
+$likes.on("click", function(event) {
   event.preventDefault();
+  
+  $likes.addClass("dislike");
+  
+  setTimeout(function() {
+    $likes.removeClass("dislike");
+  }, 500);
+  
+  if($likes.hasClass("like")) {
+    $likes.removeClass("like");
+  };
+
   if (event.button == 0) {
     place.counter -= 1;
     $(".place__likes").text(place.counter);
   }
 })
+
 
 //Переключатель табов
 $(".place__actions").on("click", function(event) {
