@@ -32,7 +32,8 @@ calendar.createDate = function(day) {
 }
 
 $("#check-in").attr("min",calendar.createDate(today));
-
+$("#check-out").attr("min",calendar.createDate(today));
+  
 function openForm($target) {
   $target.addClass("modal-form").show();
   //создаем враппер, чтобы ловить потом на нем клики и скрывать форму
@@ -78,6 +79,7 @@ $(".room-search form").on("submit", function() {
   var checkInValue = $("#check-in").val();
   var checkOutValue = $("#check-out").val();
   var valid = true;
+  
   if (checkInValue === "") {
     valid = false;
     $("#check-in").addClass("error");
@@ -97,7 +99,7 @@ $(".room-search form").on("submit", function() {
 
   var checkInDate = calendar.parseDate(checkInValue);
   var checkOutDate = calendar.parseDate(checkOutValue);
-
+   
   //Проверяем, чтобы дата въезда была раньше даты выезда (выбрать можно только
   //текущий месяц и год)
   if (checkInDate.day > checkOutDate.day 
@@ -106,6 +108,13 @@ $(".room-search form").on("submit", function() {
     valid = false;
     $(".room-search__date").addClass("error");
   }
+  
+  //В данном случае проверяем введенный месяц и год с текущим месяцем и годом календаря
+  if (checkInDate.month !== calendar.month && checkInDate.year !== calendar.year) {
+    valid = false;
+    $(".room-search__date").addClass("error");
+  }
+  
   
   var day;
   //Если какой-нибудь день из выбранного периода оказывается забронированным раньше
@@ -138,7 +147,7 @@ $(".room-search form").on("submit", function() {
 
 
 /*Сценарий2: по клику на помеченном числе из формы1 снова открывается форма2, но
-уже ЗАПОЛНЕННАЯ информацией.
+уже ЗАПОЛНЕННАЯ информацией.*/
 $(".calendar__day-picker").on("click", function() {
   var $target = $(event.target);
   if (!$target.hasClass("calendar__day_selected")) return;
@@ -146,21 +155,20 @@ $(".calendar__day-picker").on("click", function() {
   //Начинаем искать последний и первый день из промежутка, начиная с выбранной даты
   var endDay = +$target.text();
   var startDay = +$target.text();
-  console.log(startDay);
-  while (calendar.days[endDay].classList.contains("calendar__day_selected")) {
+  while (calendar.days[endDay] && calendar.days[endDay].classList.contains("calendar__day_selected")) {
     endDay++;
   }
 
   while (calendar.days[startDay-2].classList.contains("calendar__day_selected")) {
     startDay--;
   }
-
+  
   
   $("#check-in").val(calendar.createDate(startDay));
   $("#check-out").val(calendar.createDate(endDay));
   openForm($(".room-search"));
 })
-  */
+
 
 
 /**********************CHART****************/
