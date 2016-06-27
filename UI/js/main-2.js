@@ -2,20 +2,24 @@
   
 var $wrapper;
 
-var today = new Date().getDate();
+var date = new Date(2011, 0, 1);
 
 var calendar = {};
-calendar.year = new Date().getFullYear();
-calendar.month = new Date().getMonth() + 1;
-calendar.title = $(".calendar__current-month");
+calendar.year = date.getFullYear();
+calendar.month = date.getMonth() + 1;
+calendar.currentDay = date.getDate();
+calendar.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+calendar.title = calendar.monthNames[calendar.month] + " " + calendar.year;
 calendar.days = $("td.calendar__day:not(.calendar__day_disabled)");
+calendar.currentDay = $(calendar.days[calendar.currentDay-1]).addClass("calendar__day_today");
 calendar.selectedDays = [];
 
 calendar.autoClose = function() {
   setTimeout(closeForm, 2000);
 }
 
-
+$(".calendar__current-month").text(calendar.title);
+  
 calendar.parseDate = function(dateStr) {
   var date = new Date(dateStr);
   var day = date.getDate();
@@ -31,8 +35,8 @@ calendar.createDate = function(day) {
   return calendar.year + "-" + month + "-" +date;
 }
 
-$("#check-in").attr("min",calendar.createDate(today));
-$("#check-out").attr("min",calendar.createDate(today));
+/*$("#check-in").attr("min", calendar.createDate(calendar.currentDay));
+$("#check-out").attr("min", calendar.createDate(calendar.currentDay));*/
   
 function openForm($target) {
   $target.addClass("modal-form").show();
