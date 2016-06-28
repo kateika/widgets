@@ -6,13 +6,20 @@ var date = new Date();
 
 var calendar = {};
 calendar.year = date.getFullYear();
-calendar.month = date.getMonth();
+  //console.log("calendar.year " + calendar.year);
+calendar.month = date.getMonth() + 1;
+  //console.log("calendar.month " + calendar.month);
 calendar.currentDay = date.getDate();
+  //console.log("calendar.currentDay " + calendar.currentDay);
 calendar.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-calendar.title = calendar.monthNames[calendar.month] + " " + calendar.year;
+calendar.title = calendar.monthNames[calendar.month - 1] + " " + calendar.year;
 calendar.days = $("td.calendar__day:not(.calendar__day_disabled)");
-calendar.currentDay = $(calendar.days[calendar.currentDay-1]).addClass("calendar__day_today");
+  //console.log("calendar.days " + calendar.days);
+calendar.lastDayOfTheMonth = new Date(calendar.year, calendar.month, 0).getDate();
+  //console.log("calendar.lastDayOfTheMonth " + calendar.lastDayOfTheMonth)
 calendar.selectedDays = [];
+
+var highlightDay = $(calendar.days[calendar.currentDay-1]).addClass("calendar__day_today");
 
 calendar.autoClose = function() {
   setTimeout(closeForm, 2000);
@@ -30,13 +37,20 @@ calendar.parseDate = function(dateStr) {
 
 
 calendar.createDate = function(day) {
+  //console.log("day " + day);
   var month = ("00" + calendar.month).slice(-2);
+  //console.log("month " + month);
+  //console.log("calendar month " + calendar.month);
   var date = ("00" + day).slice(-2);
+  //console.log("date " + date);
+  //console.log(calendar.year + "-" + month + "-" +date);
   return calendar.year + "-" + month + "-" +date;
 }
 
-/*$("#check-in").attr("min", calendar.createDate(calendar.currentDay));
-$("#check-out").attr("min", calendar.createDate(calendar.currentDay));*/
+$("#check-in").attr("min", calendar.createDate(calendar.currentDay));
+$("#check-in").attr("max", calendar.createDate(calendar.lastDayOfTheMonth));
+$("#check-out").attr("min", calendar.createDate(calendar.currentDay));
+$("#check-out").attr("max", calendar.createDate(calendar.lastDayOfTheMonth));
   
 function openForm($target) {
   $target.addClass("modal-form").show();

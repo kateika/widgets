@@ -180,65 +180,13 @@ body {
   width: 346px;
 }
 
-.calendar__month-picker {
-  position: relative;
-  text-align: center;
+.calendar__current-month {
   line-height: 63px;
   background-color: #404a58;
-}
-
-.calendar__current-month {
   color: white;
   font-size: 17px;
+  text-align: center;
 }
-
-.calendar__month-prev,
-.calendar__month-next {
-  width: 85px;
-  height: 63px;
-  position: absolute;
-  top: 0;
-}
-
-.calendar__month-prev {
-  left: 0;
-}
-
-.calendar__month-next {
-  right: 0;
-}
-
-.calendar__month-prev:before,
-.calendar__month-next:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  margin-top: -4px;
-  width: 6px;
-  height: 6px;
-  border-top: 2px solid white;
-  border-right: 2px solid white;
-}
-
-.calendar__month-prev:before {
-  left: 39px;
-  -webkit-transform: rotate(-135deg);
-  -ms-transform: rotate(-135deg);
-  transform: rotate(-135deg);
-}
-
-.calendar__month-next:before {
-  right: 41px;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-.calendar__month-prev:hover,
-.calendar__month-next:hover {
-  opacity: .8;
-}
-
 
 /*--------------Dates--------------*/
 
