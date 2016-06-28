@@ -2,18 +2,24 @@
   
 var $wrapper;
 
+var date = new Date();
+
 var calendar = {};
-calendar.year = 2016;
+calendar.year = date.getFullYear();
+calendar.month = date.getMonth();
+calendar.currentDay = date.getDate();
 calendar.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-calendar.month = 1;
-calendar.title = $(".calendar__current-month");
+calendar.title = calendar.monthNames[calendar.month] + " " + calendar.year;
 calendar.days = $("td.calendar__day:not(.calendar__day_disabled)");
+calendar.currentDay = $(calendar.days[calendar.currentDay-1]).addClass("calendar__day_today");
 calendar.selectedDays = [];
 
 calendar.autoClose = function() {
   setTimeout(closeForm, 2000);
 }
 
+$(".calendar__current-month").text(calendar.title);
+  
 calendar.parseDate = function(dateStr) {
   var date = new Date(dateStr);
   var day = date.getDate();
@@ -22,13 +28,16 @@ calendar.parseDate = function(dateStr) {
   return {day: day, month: month, year: year};
 }
 
+
 calendar.createDate = function(day) {
   var month = ("00" + calendar.month).slice(-2);
   var date = ("00" + day).slice(-2);
   return calendar.year + "-" + month + "-" +date;
 }
 
-
+/*$("#check-in").attr("min", calendar.createDate(calendar.currentDay));
+$("#check-out").attr("min", calendar.createDate(calendar.currentDay));*/
+  
 function openForm($target) {
   $target.addClass("modal-form").show();
   //создаем враппер, чтобы ловить потом на нем клики и скрывать форму
@@ -51,29 +60,6 @@ function closeForm() {
   $(".modal-form").removeClass("modal-form").hide();
   $wrapper.remove();
 }
-
-
-//Изменение месяца
-$(".calendar__month-prev").on("click", function() {
-  event.preventDefault();
-  calendar.month--;
-  if (calendar.month == -1) {
-    calendar.month = 11;
-    calendar.year--;
-  }
-  calendar.title.text(calendar.monthNames[calendar.month] + " " + calendar.year);
-});
-
-$(".calendar__month-next").on("click", function() {
-  event.preventDefault();
-  calendar.month++;
-  if (calendar.month == 12) {
-    calendar.month = 0;
-    calendar.year++;
-  }
-  calendar.title.text(calendar.monthNames[calendar.month] + " " + calendar.year);
-});
-
 
 $(".calendar .button").on("click", function() {
   openForm($(".room-search"));
@@ -173,8 +159,7 @@ $(".calendar__day-picker").on("click", function() {
   //Начинаем искать последний и первый день из промежутка, начиная с выбранной даты
   var endDay = +$target.text();
   var startDay = +$target.text();
-  
-  while (calendar.days[endDay].classList.contains("calendar__day_selected")) {
+  while (calendar.days[endDay] && calendar.days[endDay].classList.contains("calendar__day_selected")) {
     endDay++;
   }
 
@@ -274,16 +259,25 @@ place.tabs = $(".place__actions a");
 place.activeInfo = $("#place__descr");
 place.activeTab = $(".place__action_active");
 
+var $likes = $(".place__likes");
+  
 //По клику на лайк не должно срабатывать контекстное меню
-$(".place__likes").on("contextmenu", function(event) {
+$likes.on("contextmenu", function(event) {
   event.preventDefault();
 })
 
 /*Приходится ставить прослушивание на mousedown,а не на click,так
 как он вообще не срабатывает для правой клавиши, когда мы делаем
 event.preventDefault() на контекстное меню*/
-$(".place__likes").on("mousedown", function(event) {
+$likes.on("mousedown", function(event) {
   event.preventDefault();
+
+  $likes.addClass("like");
+  
+  setTimeout(function() {
+    $likes.removeClass("like");
+  }, 500);
+
   if (event.button == 2) {
     place.counter += 1;
     $(".place__likes").text(place.counter);
@@ -291,13 +285,21 @@ $(".place__likes").on("mousedown", function(event) {
 })
 
 //Обычный клик левой кнопкой мыши работает хорошо
-$(".place__likes").on("click", function(event) {
+$likes.on("click", function(event) {
   event.preventDefault();
+  
+  $likes.addClass("like");
+  
+  setTimeout(function() {
+    $likes.removeClass("like");
+  }, 500);
+
   if (event.button == 0) {
     place.counter -= 1;
     $(".place__likes").text(place.counter);
   }
 })
+
 
 //Переключатель табов
 $(".place__actions").on("click", function(event) {
@@ -327,12 +329,7 @@ function toggleTab(tab, info) {
 $(".place__comments").on("click", function(event) {
   event.preventDefault();
   openForm($(".email"));
-  $(".recepients input.input__content").focus();
-  //Очистка полей формы перед новым комментарием
-  if(commentForm.recepients.length > 0) {
-    $(".input__tokens").css("paddingLeft", "13px").text('Click on "+" button to add email');
-  }
-  $(".email .input__content").val("");
+
 })
 
 
@@ -370,10 +367,15 @@ $(".email form").on("submit", function(event) {
   
   if (!($(".email__input").hasClass("error-comments"))) {
     closeForm();
-    //Так красивее:)
+    //Увеличиваем счетчик комментариев
     $(".place__comments").text(numberOfComments += 1);
+    
+    //Очистка полей формы перед новым комментарием
+    commentForm.recepients = [];
+    $("#file__list").empty().hide();
+    $(".input__tokens").css("paddingLeft", "13px").text('Click on "+" button to add email');
+    $(".email form")[0].reset();
   }
-  
 })
 
 $(".cancel").on("click", function(event) {
@@ -442,7 +444,6 @@ $(".email__file-picker input[type=file]").on("change", function() {
     li = $("<li/>").text(file.name);
     //Изначально прячем, чтобы не менять css стили
     $("#file__list").show().append(li);
-    console.log(file.name);
   })
 })
 

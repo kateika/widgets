@@ -12,15 +12,14 @@
 <body>
   <div class="calendar container">
     <div class="calendar__month-picker">
-        <a href="#" class="calendar__month-prev"></a>
-        <h2 class="calendar__current-month">Feb 2016</h2>
-        <a href="#" class="calendar__month-next"></a>
+        <!--<a href="#" class="calendar__month-prev"></a>-->
+        <h2 class="calendar__current-month">June 2016</h2>
+        <!--<a href="#" class="calendar__month-next"></a>-->
       </div>
     <div class="content-container">
       <table class="calendar__day-picker">
         <thead>
           <tr>
-            <!--dow - day of the week-->
             <th>Sun</th>
             <th>Mon</th>
             <th>Tue</th>
@@ -34,53 +33,54 @@
           <tr>
             <td class="calendar__day calendar__day_disabled">29</td>
             <td class="calendar__day calendar__day_disabled">30</td>
-            <td class="calendar__day">1</td>
+            <td class="calendar__day calendar__day_disabled">31</td>
+            <td class="calendar__day calendar__day_holiday">1</td>
             <td class="calendar__day">2</td>
-            <td class="calendar__day calendar__day_today">3</td>
+            <td class="calendar__day">3</td>
             <td class="calendar__day">4</td>
-            <td class="calendar__day">5</td>
           </tr>
           <tr>
+            <td class="calendar__day">5</td>
             <td class="calendar__day">6</td>
-            <td class="calendar__day calendar__day_holiday">7</td>
+            <td class="calendar__day">7</td>
             <td class="calendar__day">8</td>
             <td class="calendar__day">9</td>
             <td class="calendar__day">10</td>
             <td class="calendar__day">11</td>
-            <td class="calendar__day">12</td>
           </tr>
           <tr>
+            <td class="calendar__day">12</td>
             <td class="calendar__day">13</td>
             <td class="calendar__day">14</td>
             <td class="calendar__day">15</td>
             <td class="calendar__day">16</td>
             <td class="calendar__day">17</td>
             <td class="calendar__day">18</td>
-            <td class="calendar__day">19</td>
           </tr>
           <tr>
+            <td class="calendar__day">19</td>
             <td class="calendar__day">20</td>
             <td class="calendar__day">21</td>
             <td class="calendar__day">22</td>
-            <td class="calendar__day calendar__day_holiday">23</td>
+            <td class="calendar__day">23</td>
             <td class="calendar__day">24</td>
             <td class="calendar__day">25</td>
-            <td class="calendar__day">26</td>
           </tr>
           <tr>
+            <td class="calendar__day">26</td>
             <td class="calendar__day">27</td>
             <td class="calendar__day">28</td>
             <td class="calendar__day">29</td>
             <td class="calendar__day">30</td>
             <td class="calendar__day calendar__day_disabled">1</td>
             <td class="calendar__day calendar__day_disabled">2</td>
-            <td class="calendar__day calendar__day_disabled">3</td>
           </tr>
         </tbody>
       </table>
       <button class="button">Add event</button>
     </div>
   </div>
+    
   <div class="room-search container">
     <!-- html5 specification allows flowing content (which include h2 and div) to be inside "a" tag https://developer.mozilla.org/en/docs/Web/HTML/Element/a-->
     <a href="/hotels/hotel-relais.html" class="room-search__hotel">
@@ -95,15 +95,15 @@
     <form class="content-container" action="search.php" method="get">
       <div class="input">
         <label for="check-in" class="input__label room-search__label">Check in</label>
-        <input type="date" class="input__content room-search__date" id="check-in" name="check-in" />
+        <input type="date" class="input__content room-search__date" id="check-in" name="check-in" min="2016-06-01" max="2016-06-30"/>
         <button class="input__picker room-search__date-picker"></button>
       </div>
       <div class="input">
         <label for="check-out" class="input__label room-search__label">Check out</label>
-        <input type="date" class="input__content room-search__date" id="check-out" name="check-out" />
+        <input type="date" class="input__content room-search__date" id="check-out" name="check-out" min="2016-06-01" max="2016-06-30"/>
         <button class="input__picker room-search__date-picker"></button>
       </div>
-      <div class="checkbox">
+      <!--<div class="checkbox">
         <input type="checkbox" id="room-search__checkbox" class="room-search__checkbox" checked name="flexible-dates"/>
         <label for="room-search__checkbox" class="room-search__checkbox-label">Flexible dates</label>
       </div>
@@ -130,7 +130,7 @@
             <li class="list__item">4</li>
           </ul>
         </div>
-      </div>
+      </div>-->
       <button class="button room-search__button">Search rooms</button>
     </form>
   </div>
@@ -237,7 +237,7 @@
             <button class="token__button"></button>
           </li>
         </ul>
-        <button class="input__picker email__picker"></button>      
+        <button class="input__picker email__picker"></button>
       </div>
       <div class="input email__input subject">
         <input type="text" class="input__content" name="subject" placeholder="Subject"/>
