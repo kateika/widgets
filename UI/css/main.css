@@ -965,15 +965,11 @@ input[type="date"]::-webkit-inner-spin-button { display: none; }
 
 @keyframes userAction {
   50% {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
 }
 
 .like {
-  animation: userAction .5s;
-}
-
-.dislike {
   animation: userAction .5s;
 }
 
