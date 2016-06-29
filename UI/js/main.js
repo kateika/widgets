@@ -2,31 +2,25 @@
   
 var $wrapper;
 
-var date = new Date();
+var $tableTD = $(".calendar__day-picker tbody td");
+
+var date = new Date(2015, 10, 27);
 
 var calendar = {};
 calendar.year = date.getFullYear();
-  //console.log("calendar.year " + calendar.year);
 calendar.month = date.getMonth() + 1;
-  //console.log("calendar.month " + calendar.month);
 calendar.currentDay = date.getDate();
-  //console.log("calendar.currentDay " + calendar.currentDay);
 calendar.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 calendar.title = calendar.monthNames[calendar.month - 1] + " " + calendar.year;
-calendar.days = $("td.calendar__day:not(.calendar__day_disabled)");
-  //console.log("calendar.days " + calendar.days);
-calendar.lastDayOfTheMonth = new Date(calendar.year, calendar.month, 0).getDate();
-  //console.log("calendar.lastDayOfTheMonth " + calendar.lastDayOfTheMonth)
+$(".calendar__current-month").text(calendar.title);
+calendar.lastDayOfTheMonth = new Date(calendar.year, calendar.month, 0).getDate(); //или обычная переменная?
+calendar.wholeMonth = new Date(calendar.year, calendar.month - 1);
 calendar.selectedDays = [];
-
-var highlightDay = $(calendar.days[calendar.currentDay-1]).addClass("calendar__day_today");
 
 calendar.autoClose = function() {
   setTimeout(closeForm, 2000);
 }
 
-$(".calendar__current-month").text(calendar.title);
-  
 calendar.parseDate = function(dateStr) {
   var date = new Date(dateStr);
   var day = date.getDate();
@@ -35,22 +29,58 @@ calendar.parseDate = function(dateStr) {
   return {day: day, month: month, year: year};
 }
 
-
 calendar.createDate = function(day) {
-  //console.log("day " + day);
   var month = ("00" + calendar.month).slice(-2);
-  //console.log("month " + month);
-  //console.log("calendar month " + calendar.month);
   var date = ("00" + day).slice(-2);
   //console.log("date " + date);
-  //console.log(calendar.year + "-" + month + "-" +date);
   return calendar.year + "-" + month + "-" +date;
 }
 
+//Ставим ограничения на выбор дат из календаря
 $("#check-in").attr("min", calendar.createDate(calendar.currentDay));
 $("#check-in").attr("max", calendar.createDate(calendar.lastDayOfTheMonth));
 $("#check-out").attr("min", calendar.createDate(calendar.currentDay));
 $("#check-out").attr("max", calendar.createDate(calendar.lastDayOfTheMonth));
+
+
+// _________Или тут через calendar.dayOfTheWeek лучше писать? Ведь переменные в скоупе валяются абы как
+var dayOfTheWeek = calendar.wholeMonth.getDay();
+var dayOfTheMonth = calendar.wholeMonth.getDate();
+var daysOfTheCalendar = [];
+
+//Предыдщий месяц это (calendar-month - 2), а для расчета нужен предпредыдущий месяц
+var lastDayOfThePreviousMonth = new Date(calendar.year, calendar.month - 3, 0).getDate();
+
+for (var i = 0; i < dayOfTheWeek; i++) {
+  daysOfTheCalendar.unshift(lastDayOfThePreviousMonth);
+  lastDayOfThePreviousMonth--;
+  $($tableTD[i]).addClass("calendar__day_disabled");
+}
+
+if (daysOfTheCalendar.length < 7) {
+    while (dayOfTheMonth <= calendar.lastDayOfTheMonth) {
+      daysOfTheCalendar.push(dayOfTheMonth);
+      dayOfTheMonth++
+    }
+}
+
+dayOfTheMonth = 1;
+var indexForDaysOfNewMonth = daysOfTheCalendar.length;
+while (daysOfTheCalendar.length < $tableTD.length) {
+  daysOfTheCalendar.push(dayOfTheMonth);
+  dayOfTheMonth++;
+  $($tableTD[indexForDaysOfNewMonth]).addClass("calendar__day_disabled");
+  indexForDaysOfNewMonth++
+}
+
+for (var i = 0; i < $tableTD.length; i++) {
+  $($tableTD[i]).html(daysOfTheCalendar[i]);
+}
+  
+
+//Add styles for disabled days and current day
+calendar.days = $("td.calendar__day:not(.calendar__day_disabled)");
+var highlightDay = $(calendar.days[calendar.currentDay-1]).addClass("calendar__day_today");
   
 function openForm($target) {
   $target.addClass("modal-form").show();
@@ -288,6 +318,7 @@ $likes.on("mousedown", function(event) {
 
   $likes.addClass("like");
   
+  /*Из-за того, что анимация одна на два действия и навешана на один элемент приходится искуственно её резетать*/
   setTimeout(function() {
     $likes.removeClass("like");
   }, 500);

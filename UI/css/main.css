@@ -215,7 +215,6 @@ body {
   vertical-align: middle;
 }
 
-.calendar__day_holiday,
 .calendar__day:hover {
   color: #fb6362;
 }
